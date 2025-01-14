@@ -1,0 +1,145 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Encuesta de satifaccion de un restaurante</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <header style="background-color: #d7cfd0; color: rgb(40, 36, 36); padding: 10px; text-align: center;">
+            <h2>Contacto</h2>
+        </header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container"></div>
+        </nav>
+        
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">Formulario de Contacto</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="contactForm" onsubmit="handleSubmit(event)">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="telefono">
+                                </div>
+                                <input type="hidden" id="editId">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-secondary" onclick="resetForm()">Limpiar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Tabla de registros -->
+                <div class="col-md-8 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">Registro de contactos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Email</th>
+                                            <th>Teléfono</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contactTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+        </div>
+    
+        <script>
+            let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            function saveContacts() {
+                localStorage.setItem('contacts', JSON.stringify(contacts));
+            }
+            function displayContacts() {
+                const tableBody = document.getElementById('contactTableBody');
+                tableBody.innerHTML = '';
+                
+                contacts.forEach((contact, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${contact.nombre}</td>
+                        <td>${contact.email}</td>
+                        <td>${contact.telefono}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editContact(${index})">editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteContact(${index})">eliminar</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+    
+            function handleSubmit(event) {
+                event.preventDefault();
+                
+                const formData = {
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    fecha: new Date().toISOString()
+                };
+    
+                const editId = document.getElementById('editId').value;
+                
+                if (editId !== '') {
+                    contacts[parseInt(editId)] = formData;
+                    document.getElementById('editId').value = '';
+                } else {
+                    contacts.push(formData);
+                }
+    
+                saveContacts();
+                displayContacts();
+                resetForm();
+                
+                alert('¡Contacto guardado con éxito!');
+            }
+            function editContact(index) {
+                const contact = contacts[index];
+                document.getElementById('nombre').value = contact.nombre;
+                document.getElementById('email').value = contact.email;
+                document.getElementById('telefono').value = contact.telefono;
+                document.getElementById('editId').value = index;
+            }
+            function deleteContact(index) {
+                if (confirm('¿Está seguro de eliminar este contacto?')) {
+                    contacts.splice(index, 1);
+                    saveContacts();
+                    displayContacts();
+                }
+            }
+            function resetForm() {
+                document.getElementById('contactForm').reset();
+                document.getElementById('editId').value = '';
+            }
+            displayContacts();
+        </script>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>

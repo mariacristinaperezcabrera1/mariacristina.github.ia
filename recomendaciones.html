@@ -1,0 +1,145 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Gastronómico</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header style="background-color: #797776ef;
+		color: white;
+		padding: 10px;
+		text-align: center;">
+			<h2>Recomendaciones</h2>
+		</header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav" id="menu">
+                        <!--Aqui mi JSON-->
+					</div>
+				</div>
+			</div>
+		</nav>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            const xhr=new XMLHttpRequest();
+			xhr.open("GET", "recomendaciones.json", true);
+			xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const menuitems = JSON.parse(xhr.responseText);
+                    let menuHTML="";
+
+                    menuitems.forEach(item => {
+                        menuHTML+=`
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="${item.link}">${item.nombre}</a>
+                            </li>
+                            `;
+                    }); 
+
+                    document.getElementById("menu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+        </script>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Sugerencias para Mejorar</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="suggestionForm">
+                            <div class="mb-3">
+                                <label for="serviceType" class="form-label">Tipo de Servicio</label>
+                                <select class="form-select" id="serviceType" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="atención">Atención al Cliente</option>
+                                    <option value="comida">Calidad de la Comida</option>
+                                    <option value="ambiente">Ambiente</option>
+                                    <option value="otros">Otros</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="suggestion" class="form-label">Su Sugerencia</label>
+                                <textarea class="form-control" id="suggestion" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar Sugerencia</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Proponer Nuevo Plato</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="newDishForm">
+                            <div class="mb-3">
+                                <label for="dishName" class="form-label">Nombre del Plato</label>
+                                <input type="text" class="form-control" id="dishName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dishDescription" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="dishDescription" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dishCategory" class="form-label">Categoría</label>
+                                <select class="form-select" id="dishCategory" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="entrada">Entrada</option>
+                                    <option value="principal">Plato Principal</option>
+                                    <option value="postre">Postre</option>
+                                    <option value="bebida">Bebida</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success">Proponer Plato</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Comparte tu Experiencia</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="experienceForm">
+                            <div class="mb-3">
+                                <label for="experienceText" class="form-label">Tu Experiencia</label>
+                                <textarea class="form-control" id="experienceText" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-info text-white">Compartir Experiencia</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('¡Gracias por tu feedback! Tu información ha sido enviada.');
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>

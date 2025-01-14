@@ -1,0 +1,179 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad Gastronómica</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+		<header style="background-color: #dddcdc;
+		color: rgb(6, 5, 5);
+		padding: 10px;
+		text-align: center;">
+			
+			<h2>Bienvenido a la pagina de comunidad</h2>
+		</header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav" id="menu">
+                        <!--Aqui mi JSON-->
+					</div>
+				</div>
+			</div>
+		</nav>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            const xhr=new XMLHttpRequest();
+			xhr.open("GET", "comunidad.json", true);
+			xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const menuitems = JSON.parse(xhr.responseText);
+                    let menuHTML="";
+
+                    menuitems.forEach(item => {
+                        menuHTML+=`
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="${item.link}">${item.nombre}</a>
+                            </li>
+                            `;
+                    }); 
+
+                    document.getElementById("menu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+        </script>
+    
+    <!-- Sección de Foros -->
+    <section id="foros" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Foros sobre la satisfacción en restaurantes</h2>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Calidad del Servicio</h5>
+                            <p class="card-text">Comparte tus experiencias sobre el servicio en restaurantes.</p>
+                            <a href="#" class="btn btn-primary">Participar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Sabores y Platos</h5>
+                            <p class="card-text">Discute sobre la calidad y presentación de los platillos.</p>
+                            <a href="#" class="btn btn-primary">Participar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Ambiente y Decoración</h5>
+                            <p class="card-text">Comparte opiniones sobre la atmósfera de los restaurantes.</p>
+                            <a href="#" class="btn btn-primary">Participar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Recomendaciones -->
+    <section id="recomendaciones" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Recomendaciones de restaurantes populares
+            </h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">La Terraza Gourmet</h5>
+                                
+                            </div>
+                            <p class="card-text">Cocina mediterránea con vista panorámica</p>
+                            <div class="d-flex justify-content-between align-items-center"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">Sabores del Mar</h5>
+                            </div>
+                            <p class="card-text">Especialidad en mariscos frescos</p>
+                            <div class="d-flex justify-content-between align-items-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Encuentros -->
+    <section id="encuentros" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Encuentros de chefs y clientes</h2>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Clase Magistral de Pasta</h5>
+                            </div>
+                            <p class="mb-1">Chef Antonio Rossi enseñará técnicas de pasta fresca.</p>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Cata de Vinos</h5>
+                            </div>
+                            <p class="mb-1">Sommelier María García guiará una cata de vinos españoles.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Concursos -->
+    <section id="concursos" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Concurso sobre la mejor reseña de restaurante</h2>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">¡Participa en nuestro concurso mensual!</h5>
+                            <p class="card-text">Comparte tu mejor reseña y gana premios exclusivos.</p>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="restaurantName" class="form-label">Nombre del Restaurante</label>
+                                    <input type="text" class="form-control" id="restaurantName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="review" class="form-label">Tu Reseña</label>
+                                    <textarea class="form-control" id="review" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar Reseña</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

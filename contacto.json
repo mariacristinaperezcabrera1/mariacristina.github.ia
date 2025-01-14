@@ -1,0 +1,14 @@
+[
+    {
+        "nombre": "Nombre ",
+        "link": "nombre.html"
+    },
+    {
+        "nombre": "Email",
+        "link": "email.html"
+    },
+    {
+        "nombre": "Telefono ",
+        "link": "telefono.html"
+    }
+]

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<traslation>
+    <item>
+        <es>Inicio</es>
+        <en>Home</en>
+    </item>
+    <item>
+        <es>Formulario de Encuesta</es>
+        <en>survey form</en>
+    </item>
+    <item>
+        <es>Resultados</es>
+        <en>results</en>
+    </item>
+    <item>
+        <es>Recomendaciones</es>
+        <en>recommendations</en>
+    </item>
+    <item>
+        <es>Comunidad</es>
+        <en>community</en>
+    </item>
+    <item>
+        <es>Extras</es>
+        <en>extras</en>
+    </item>
+    <item>
+        <es>Faq</es>
+        <en>faq</en>
+    </item>
+    <item>
+        <es>Contacto</es>
+        <en>contact</en>
+    </item>
+</traslation>

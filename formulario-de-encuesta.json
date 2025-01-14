@@ -1,0 +1,22 @@
+[
+    {
+        "nombre": "Calidad de la comida ",
+        "link": "formulario-de-encuesta.html"
+    },
+    {
+        "nombre": "Servicio y ambiente ",
+        "link": "formulario-de-encuesta.html"
+    },
+    {
+        "nombre": "Facilidad reserva ",
+        "link": "formulario-de-encuesta.html"
+    },
+    {
+        "nombre": "Satisfacción ",
+        "link": "formulario-de-encuesta.html"
+    },
+	{
+        "nombre": "Recomendaciones ",
+        "link": "formulario-de-encuesta.html"
+    }
+]

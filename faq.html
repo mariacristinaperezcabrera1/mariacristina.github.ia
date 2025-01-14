@@ -1,0 +1,155 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Section</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header style="background-color: #797776ef;
+		color: white;
+		padding: 10px;
+		text-align: center;">
+			<h2>FAQ</h2>
+	</header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+        <script>
+            const xhr=new XMLHttpRequest();
+			xhr.open("GET", "faq.json", true);
+			xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const menuitems = JSON.parse(xhr.responseText);
+                    let menuHTML="";
+
+                    menuitems.forEach(item => {
+                        menuHTML+=`
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="${item.link}">${item.nombre}</a>
+                            </li>
+                            `;
+                    }); 
+
+                    document.getElementById("menu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+        </script>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Preguntas Frecuentes (FAQ)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="faqAccordion">
+                            <!-- Pregunta 1 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pregunta1">
+                                        ¿Cómo completar la encuesta correctamente?
+                                    </button>
+                                </h2>
+                                <div id="pregunta1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Para completar la encuesta correctamente:</p>
+                                        <ol>
+                                            <li>Asegúrate de leer cada pregunta cuidadosamente</li>
+                                            <li>Proporciona comentarios detallados en el campo de sugerencias</li>
+                                            <li>Verifica tus respuestas antes de enviar</li>
+                                            <li>Haz clic en "Enviar Feedback" para completar la encuesta</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 2 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pregunta2">
+                                        ¿Cómo ver mis resultados anteriores?
+                                    </button>
+                                </h2>
+                                <div id="pregunta2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Para acceder a tus resultados anteriores:</p>
+                                        <ol>
+                                            <li>Inicia sesión en tu cuenta</li>
+                                            <li>Ve a la sección "Mi Perfil"</li>
+                                            <li>Selecciona "Historial de Encuestas"</li>
+                                            <li>Allí encontrarás todas tus encuestas anteriores organizadas por fecha</li>
+                                        </ol>
+                                        <div class="alert alert-info mt-2">
+                                            <i class="fas fa-info-circle"></i> Nota: Los resultados se guardan automáticamente después de cada envío.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 3 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pregunta3">
+                                        ¿Cómo cambiar mis respuestas?
+                                    </button>
+                                </h2>
+                                <div id="pregunta3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Para modificar tus respuestas:</p>
+                                        <ol>
+                                            <li>Las respuestas pueden modificarse antes de hacer clic en "Enviar"</li>
+                                            <li>Una vez enviada la encuesta, contacta con soporte si necesitas hacer cambios</li>
+                                            <li>Proporciona la fecha y hora de tu envío original</li>
+                                        </ol>
+                                        <div class="alert alert-warning mt-2">
+                                            <i class="fas fa-exclamation-triangle"></i> Las modificaciones solo son posibles dentro de las 24 horas posteriores al envío.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 4 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pregunta4">
+                                        ¿Cómo contactar con soporte?
+                                    </button>
+                                </h2>
+                                <div id="pregunta4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Tienes varias opciones para contactar con nuestro equipo de soporte:</p>
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <i class="fas fa-envelope me-2"></i> Envía un email a soporte@ejemplo.com
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <i class="fas fa-phone me-2"></i> Llama al +34 900 123 456
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <i class="fas fa-comment me-2"></i> Usa el chat en vivo
+                                            </a>
+                                        </div>
+                                        <div class="alert alert-success mt-3">
+                                            <i class="fas fa-clock"></i> Horario de atención: Lunes a Viernes, 9:00 - 18:00
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

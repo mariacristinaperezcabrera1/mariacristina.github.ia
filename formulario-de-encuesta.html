@@ -1,0 +1,258 @@
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Restaurante</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <header style="background-color: #623006; color: white; padding: 10px; text-align: center;"> 
+            <h2>formulario de encuesta</h2>
+        </header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav" id="menu">
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container mt-5">
+            <!-- Formulario de entrada -->
+            <form id="surveyForm" class="mb-4">
+                <div class="mb-3">
+                    <label for="calidaddelacomida" class="form-label">Calidad de la Comida (1-5)</label>
+                    <input type="number" class="form-control" id="calidaddelacomida" min="1" max="5" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="Servicioyambiente" class="form-label">Servicio y ambiente</label>
+                    <textarea class="form-control" id="Servicioyambiente" rows="2" required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="facilidaddereserva" class="form-label">Facilidad de Reserva (1-5)</label>
+                    <input type="number" class="form-control" id="facilidaddereserva" min="1" max="5" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="satisfaccion" class="form-label">Satisfacción</label>
+                    <select class="form-control" id="satisfaccion" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="Muy Satisfecho">Muy Satisfecho</option>
+                        <option value="Satisfecho">Satisfecho</option>
+                        <option value="Insatisfecho">Insatisfecho</option>
+                        <option value="Muy Insatisfecho">Muy Insatisfecho</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="recomendaciones" class="form-label">Recomendaciones</label>
+                    <textarea class="form-control" id="recomendaciones" rows="2"></textarea>
+                </div>
+
+                <input type="hidden" id="editId">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Limpiar</button>
+            </form>
+
+            <!-- Tabla de registros -->
+            <h3>Registros de Encuestas</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Calidad de la comida</th>
+                            <th>Servicio y ambiente </th>
+                            <th>Facilidad reserva</th>
+                            <th>Satisfacción</th>
+                            <th>Recomendaciones</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="surveyTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de Edición -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar Encuesta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <div class="mb-3">
+                                <label for="editCalidadComida" class="form-label">Calidad de la Comida (1-5)</label>
+                                <input type="number" class="form-control" id="editCalidadComida" min="1" max="5" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editServicioyambiente" class="form-label">Servicio y ambiente</label>
+                                <textarea class="form-control" id="editServicioyambiente" rows="2" required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editFacilidadReserva" class="form-label">Facilidad de Reserva (1-5)</label>
+                                <input type="number" class="form-control" id="editFacilidadReserva" min="1" max="5" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editSatisfaccion" class="form-label">Satisfacción</label>
+                                <select class="form-control" id="editSatisfaccion" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Muy Satisfecho">Muy bien</option>
+                                    <option value="Satisfecho">Satisfecho</option>
+                                    <option value="Insatisfecho">Insatisfecho</option>
+                                    <option value="Muy Insatisfecho">Muy Insatisfecho</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editRecomendaciones" class="form-label">Recomendaciones</label>
+                                <textarea class="form-control" id="editRecomendaciones" rows="2"></textarea>
+                            </div>
+                            <input type="hidden" id="editModalId">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="saveEditedSurvey()">Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Cargar menú desde JSON
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "formulario-de-encuesta.json", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const menuitems = JSON.parse(xhr.responseText);
+                    let menuHTML = "";
+
+                    menuitems.forEach(item => {
+                        menuHTML += `
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="${item.link}">${item.nombre}</a>
+                            </li>
+                        `;
+                    }); 
+
+                    document.getElementById("menu").innerHTML = menuHTML;
+                } else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+            let surveys = JSON.parse(localStorage.getItem('surveys')) || [
+                {
+                    id: 1,
+                    calidaddelacomida: 4,
+                    Servicioyambiente: "Excelente atención",
+                    facilidaddereserva: 5,
+                    satisfaccion: "Muy Satisfecho",
+                    recomendaciones: "Más opciones vegetarianas"
+                }
+            ];
+            function saveSurveys() {
+                localStorage.setItem('surveys', JSON.stringify(surveys));
+            }
+            function displaySurveys() {
+                const tableBody = document.getElementById('surveyTableBody');
+                tableBody.innerHTML = '';
+
+                surveys.forEach(survey => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${survey.calidaddelacomida}</td>
+                        <td>${survey.Servicioyambiente}</td>
+                        <td>${survey.facilidaddereserva}</td>
+                        <td>${survey.satisfaccion}</td>
+                        <td>${survey.recomendaciones}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="openEditModal(${survey.id})">Editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteSurvey(${survey.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            
+            function openEditModal(id) {
+                const survey = surveys.find(s => s.id == id);
+                if (survey) {
+                    document.getElementById('editModalId').value = survey.id;
+                    document.getElementById('editCalidadComida').value = survey.calidaddelacomida;
+                    document.getElementById('editServicioyambiente').value = survey.Servicioyambiente;
+                    document.getElementById('editFacilidadReserva').value = survey.facilidaddereserva;
+                    document.getElementById('editSatisfaccion').value = survey.satisfaccion;
+                    document.getElementById('editRecomendaciones').value = survey.recomendaciones;
+                    
+                    const modal = new bootstrap.Modal(document.getElementById('editModal'));
+                    modal.show();
+                }
+            }
+
+            // modal
+            function saveEditedSurvey() {
+                const id = document.getElementById('editModalId').value;
+                const survey = {
+                    id: id,
+                    calidaddelacomida: parseInt(document.getElementById('editCalidadComida').value),
+                    Servicioyambiente: document.getElementById('editServicioyambiente').value,
+                    facilidaddereserva: parseInt(document.getElementById('editFacilidadReserva').value),
+                    satisfaccion: document.getElementById('editSatisfaccion').value,
+                    recomendaciones: document.getElementById('editRecomendaciones').value
+                };
+
+                const index = surveys.findIndex(s => s.id == id);
+                surveys[index] = survey;
+                
+                saveSurveys();
+                displaySurveys();
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+                modal.hide();
+            }
+
+            document.getElementById('surveyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const survey = {
+                    id: Date.now(),
+                    calidaddelacomida: parseInt(document.getElementById('calidaddelacomida').value),
+                    Servicioyambiente: document.getElementById('Servicioyambiente').value,
+                    facilidaddereserva: parseInt(document.getElementById('facilidaddereserva').value),
+                    satisfaccion: document.getElementById('satisfaccion').value,
+                    recomendaciones: document.getElementById('recomendaciones').value
+                };
+
+                surveys.push(survey);
+                saveSurveys();
+                displaySurveys();
+                resetForm();
+            });
+
+            // Eliminar encuesta
+            function deleteSurvey(id) {
+                if (confirm('¿Está seguro de eliminar este registro?')) {
+                    surveys = surveys.filter(s => s.id != id);
+                    saveSurveys();
+                    displaySurveys();
+                }
+            }
+
+            function resetForm() {
+                document.getElementById('surveyForm').reset();
+            }
+            displaySurveys();
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
